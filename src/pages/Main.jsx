@@ -1,14 +1,23 @@
 import { useState } from "react";
 import axios from "axios";
 import { useEffect } from "react";
+import {
+  FormControl,
+  Button,
+  Input,
+  InputLabel,
+  FormGroup,
+} from "@mui/material";
+import MovieCard from "../components/MovieCard";
 
+// pseudocode:
 // create routes
+// create navbar and show at all pages
 // create pages
 // get API data with axios, useEffect
 // use state to hold data
 // console.log(APIdata)
 // send props to pages / global states (map, filter, id, ternary, short circuit)
-// create navbar and show at all pages
 // firebase
 
 const Main = () => {
@@ -31,9 +40,26 @@ const Main = () => {
   }, []);
 
   return (
-  <div className="main">
-    <button type="submit" onClick={() => getMovieData()} >Submit</button>
-  </div>
+    <div className="main flex flex-col items-center justify-center gap-4 m-2 ">
+      <div className="search">
+        <FormGroup>
+          <FormControl>
+            <InputLabel htmlFor="my-input">Search Movie</InputLabel>
+            <Input id="search-input" />
+          </FormControl>
+          <Button type="submit" variant="contained">
+            Search
+          </Button>
+        </FormGroup>
+      </div>
+      <div className="singleCard grid lg:grid-cols-4 ">
+
+      {movieData?.map((singleCard, index)=> {
+        return <MovieCard {...singleCard} key={index} />;
+      })}
+      </div>
+      
+    </div>
   );
 };
 
