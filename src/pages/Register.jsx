@@ -43,9 +43,9 @@ const Register = () => {
               We'll never share your password.
             </FormHelperText>
           </FormControl>
-          <Link href="#" underline="always">
+          {/* <Link href="#" underline="always">
             {"Forgot password?"}
-          </Link>
+          </Link> */}
           <Button variant="contained">Register</Button>
         </FormGroup>
       </div>

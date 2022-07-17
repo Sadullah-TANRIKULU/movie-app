@@ -7,8 +7,23 @@ import {
   FormHelperText,
   Link,
 } from "@mui/material";
+import { GoogleAuthProvider, signInWithPopup, signInWithRedirect, signOut, onAuthStateChanged } from "firebase/auth";
+import { auth } from "../auth/firebase";
+import { GoogleButton } from "react-google-button";
+import { UserAuth } from "../context/AuthContext";
 
 const Login = () => {
+
+  const { googleLogIn } = UserAuth();
+
+  const signInWithGoogle = async () => {
+    try {
+      const provider = new GoogleAuthProvider();
+      await googleLogIn(auth, provider)
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   return (
     <div className="login m-4 grid lg:grid-cols-2 gap-4 w-full ">
@@ -40,9 +55,11 @@ const Login = () => {
             {"Forgot password?"}
           </Link>
           <Button variant="contained">Login</Button>
-          <Button className="bg-red-800" variant="contained">
+          <Button className="bg-red-800" variant="contained" onClick={signInWithGoogle} >
             Continue with Google
           </Button>
+
+          <GoogleButton />
         </FormGroup>
       </div>
     </div>
