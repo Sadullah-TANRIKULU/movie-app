@@ -8,7 +8,7 @@ import {
   InputLabel,
   FormGroup,
 } from "@mui/material";
-import MovieCard from "../components/MovieCard";
+import MovieCard from "../components/movieCard/MovieCard";
 
 // pseudocode:
 // create routes
@@ -52,7 +52,7 @@ const Main = () => {
           </Button>
         </FormGroup>
       </div>
-      <div className="singleCard grid lg:grid-cols-4 ">
+      <div className="singleCard grid lg:grid-cols-4 "> {/**/}
 
       {movieData?.map((singleCard, index)=> {
         return <MovieCard {...singleCard} key={index} />;
