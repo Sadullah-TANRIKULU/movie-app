@@ -1,10 +1,12 @@
+import { useNavigate } from "react-router-dom";
 import "./MovieCard.css";
 
 const MovieCard = (props) => {
+  const navigate = useNavigate();
   const { title, overview, poster_path } = props;
 
   return (
-    <div className="movieCard ">
+    <div className="movieCard cursor-pointer " onClick={() => navigate('moviedetail') } >
       <div className="movieCardPoster">
         <img
           src={`https://image.tmdb.org/t/p/w1280${poster_path}`}
