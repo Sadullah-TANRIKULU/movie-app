@@ -1,23 +1,32 @@
-import { Routes, Route, BrowserRouter } from "react-router-dom";
+import { useContext } from "react";
+import { Routes, Route, BrowserRouter, Outlet, Navigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
-import { AuthContextProvider } from "../context/AuthContext";
+import { AuthContext } from "../context/AuthContext";
 import Login from "../pages/Login";
 import Main from "../pages/Main";
 import MovieDetail from "../pages/MovieDetail";
 import Register from "../pages/Register";
 
 const Router = () => {
+
+  const { currentUser } = useContext(AuthContext);
+  function PrivateRouter() {
+    return currentUser ? <Outlet /> : <Navigate to="/login" replace />
+  }
+
+
+
   return (
     <BrowserRouter>
-      <AuthContextProvider>
-        <Navbar />
-        <Routes>
-          <Route path="/" element={<Main />} />
-          <Route path="register" element={<Register />} />
-          <Route path="login" element={<Login />} />
-          <Route path="moviedetail" element={<MovieDetail />} />
-        </Routes>
-      </AuthContextProvider>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Main />} />
+        <Route path="login" element={<Login />} />
+        <Route path="register" element={<Register />} />
+        <Route path="moviedetail/:id" element={<PrivateRouter />} >
+          <Route path="" element={<MovieDetail />} />
+        </Route>
+      </Routes>
     </BrowserRouter>
   );
 };

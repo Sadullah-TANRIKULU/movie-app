@@ -7,27 +7,27 @@ import {
   FormHelperText,
   Link,
 } from "@mui/material";
-import {
-  GoogleAuthProvider,
-  signInWithPopup,
-  signInWithRedirect,
-  signOut,
-  onAuthStateChanged,
-} from "firebase/auth";
-import { auth } from "../auth/firebase";
-import { UserAuth } from "../context/AuthContext";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { signIn, signUpProvider } from "../auth/firebase";
+
 
 const Login = () => {
-  const { googleLogIn } = UserAuth();
+  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
+  const navigate = useNavigate();
 
-  const signInWithGoogle = async () => {
-    try {
-      const provider = new GoogleAuthProvider();
-      await googleLogIn(auth, provider);
-    } catch (error) {
-      console.log(error);
-    }
+  
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+    console.log(email, password);
+    signIn(email, password, navigate);
   };
+
+  const handleProviderLogin = () => {
+    signUpProvider(navigate);
+  }
 
   return (
     <div className="login m-4 grid lg:grid-cols-2 gap-4 w-full ">
@@ -36,40 +36,51 @@ const Login = () => {
       </div>
       <div className="loginForm w-full ">
         <h1 className="text-6xl text-center">Login</h1>
-        <FormGroup className="flex flex-col gap-4">
-          <FormControl>
-            <InputLabel htmlFor="my-input">Email address</InputLabel>
-            <Input id="email-input" aria-describedby="my-helper-text" />
-            <FormHelperText id="my-helper-text">
-              We'll never share your email.
-            </FormHelperText>
-          </FormControl>
-          <FormControl>
-            <InputLabel htmlFor="my-input">Password</InputLabel>
-            <Input
-              id="password-input"
-              type="password"
-              aria-describedby="my-helper-text"
-            />
-            <FormHelperText id="my-helper-text">
-              We'll never share your password.
-            </FormHelperText>
-          </FormControl>
-          <Link href="#" underline="always">
-            {"Forgot password?"}
-          </Link>
-          <Button variant="contained">Login</Button>
-          <Button
-            sx={{                           // how to customize prop for material ui
-              backgroundColor: "red",
-            }}
-            className="googleBtn"
-            variant="contained"
-            onClick={signInWithGoogle}
-          >
-            Continue with Google
-          </Button>
-        </FormGroup>
+        <form action="" onSubmit={handleLogin}>
+          <FormGroup className="flex flex-col gap-4">
+            <FormControl>
+              <InputLabel htmlFor="my-input">Email address</InputLabel>
+              <Input
+                id="email-input"
+                type="text"
+                aria-describedby="my-helper-text"
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              <FormHelperText id="my-helper-text">
+                We'll never share your email.
+              </FormHelperText>
+            </FormControl>
+            <FormControl>
+              <InputLabel htmlFor="my-input">Password</InputLabel>
+              <Input
+                id="password-input"
+                type="password"
+                aria-describedby="my-helper-text"
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <FormHelperText id="my-helper-text">
+                We'll never share your password.
+              </FormHelperText>
+            </FormControl>
+            <Link href="#" underline="always">
+              {"Forgot password?"}
+            </Link>
+            <Button variant="contained" type="submit">
+              Login
+            </Button>
+            <Button
+              sx={{
+                // how to customize prop for material ui
+                backgroundColor: "red",
+              }}
+              className="googleBtn"
+              variant="contained"
+              onClick={handleProviderLogin}
+            >
+              Continue with Google
+            </Button>
+          </FormGroup>
+        </form>
       </div>
     </div>
   );

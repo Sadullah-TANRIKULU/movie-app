@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import axios from "axios";
 import { useEffect } from "react";
 import {
@@ -9,6 +9,8 @@ import {
   FormGroup,
 } from "@mui/material";
 import MovieCard from "../components/movieCard/MovieCard";
+import { AuthContext } from "../context/AuthContext";
+import { toastWarnNotify } from "../helpers/ToastNotify";
 
 // pseudocode:
 // create routes
@@ -20,15 +22,20 @@ import MovieCard from "../components/movieCard/MovieCard";
 // send props to pages / global states (map, filter, id, ternary, short circuit)
 // firebase
 
+const API_KEY = process.env.REACT_APP_TMDB_KEY;
+
 const Main = () => {
+  const [loading, setLoading] = useState(false);
   const [movieData, setMovieData] = useState([]);
   const [searchMovie, setSearchMovie] = useState("");
   const [searchData, setSearchData] = useState([]);
+  const { currentUser } = useContext(AuthContext);
 
-  const urlData = `https://api.themoviedb.org/3/discover/movie?api_key=8f2ca002e986a1cafaf8f55e80fb42a7`;
-  const urlSearch = `https://api.themoviedb.org/3/search/movie?api_key=8f2ca002e986a1cafaf8f55e80fb42a7&query=${searchMovie}`;
+  const urlData = `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}`;
+  const urlSearch = `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=${searchMovie}`;
 
   const getMovieData = async () => {
+    setLoading(true);
     try {
       const response = await axios.get(urlData);
       setMovieData(response.data.results);
@@ -36,6 +43,7 @@ const Main = () => {
     } catch (error) {
       console.error(error);
     }
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -44,12 +52,18 @@ const Main = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const response = await axios.get(urlSearch);
-      setSearchData(response.data.results);
-      console.log(searchData);
-    } catch (error) {
-      console.error(error);
+    if (searchMovie && currentUser) {
+      try {
+        const response = await axios.get(urlSearch);
+        setSearchData(response.data.results);
+        console.log(searchData);
+      } catch (error) {
+        console.error(error);
+      }
+    }else if (!currentUser) {
+      toastWarnNotify('Pls log in to search a movie');
+    } else {
+      toastWarnNotify('Pls, enter a text');
     }
   };
 
@@ -59,8 +73,14 @@ const Main = () => {
 
   return (
     <div className="main flex flex-col items-center justify-center gap-4 m-2 ">
-      <div className="search">
-        <FormGroup>
+      <div className="search ">
+        <FormGroup
+          sx={{
+            // how to customize prop for material ui
+            display: "flex",
+            flexDirection: "row",
+          }}
+        >
           <FormControl>
             <InputLabel htmlFor="my-input">Search Movie</InputLabel>
             <Input
