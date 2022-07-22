@@ -28,14 +28,14 @@ const Register = () => {
   };
 
   return (
-    <div className="login m-4 grid lg:grid-cols-2 gap-4 w-full ">
-      <div className="loginImg w-full ">
+    <div className="register pt-2 grid lg:grid-cols-3 gap-4 w-full ">
+      <div className="loginImg w-full lg:col-start-1 lg:col-span-2">
         <img src={"https://picsum.photos/1600/900"} alt="entrance" />
       </div>
       <div className="loginForm w-full ">
         <h1 className="text-6xl text-center">Register</h1>
         <form action="" onSubmit={handleSubmit}>
-          <FormGroup className="flex flex-col gap-4">
+          <FormGroup className="flex flex-col gap-12">
             <FormControl>
               <InputLabel htmlFor="my-input">First Name</InputLabel>
               <Input

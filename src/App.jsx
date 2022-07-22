@@ -8,7 +8,7 @@ function App() {
     <div className="App p-2 ">
       <AuthContextProvider>
         <Router />
-        <ToastContainer />
+       {/* <ToastContainer />  */}
       </AuthContextProvider>
     </div>
   );
