@@ -17,11 +17,11 @@ const MovieCard = (props) => {
 
   const setVoteClass = (vote) => {
     if (vote > 8) {
-      return "#00ff00"; // green
+      return "green"; // green
     } else if (vote >= 6 && vote <= 8) {
-      return "#0000ff"; // orange
+      return "orange"; // orange
     } else {
-      return "#ff0000"; // red
+      return "red"; // red
     }
   };
 
@@ -45,9 +45,7 @@ const MovieCard = (props) => {
         </h3>
         {currentUser && (
           <span
-            className={`tag bg-[${setVoteClass(
-              vote_average
-            )}] rounded-full p-4 absolute top-0 left-0 text-lg text-white font-semibold`}
+            className={`tag bg-green-900 w-10 h-10 rounded-full p-1 absolute top-0 left-0 text-lg text-white font-semibold text-center`}
           >
             {vote_average}
           </span>

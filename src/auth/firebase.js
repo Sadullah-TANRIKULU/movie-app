@@ -49,7 +49,8 @@ export const createUser = async (email, password, navigate, displayName) => {
     navigate('/');
     console.log(userCredential);
   } catch (error) {
-    console.log(error);
+    console.log(error.message);
+    alert(error.message && "Email already in use!");
   }
 };
 
