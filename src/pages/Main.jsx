@@ -22,7 +22,7 @@ import { toastWarnNotify } from "../helpers/ToastNotify";
 // send props to pages / global states (map, filter, id, ternary, short circuit)
 // firebase
 
-const API_KEY = "8f2ca002e986a1cafaf8f55e80fb42a7"; // process.env.REACT_APP_TMDB_KEY
+const API_KEY = process.env.REACT_APP_TMDB_KEY;
 
 const Main = () => {
   const [loading, setLoading] = useState(false);
@@ -34,7 +34,6 @@ const Main = () => {
   const urlData = `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}`;
   const urlSearch = `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=`;
 
-  console.log(API_KEY);
 
   const getMovieData = async () => {
     // setLoading(true);
